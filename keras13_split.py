@@ -3,13 +3,28 @@ import numpy as np
 x = np.array(range(1,101)) #1~100 (미만으로 보자!) 한두개 틀려도 돌아감. 
 y = np.array(range(101,201))
 
-x_train = x[:60] #처음부터 60까지
-x_val = x[60:80]
-x_test = x[80:]
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split ( 
+    #x, y, random_state=66, shuffle=True,#default option, 원래대로 하고 싶으면 shuffle false
+    x, y, shuffle= False,
+    
+    train_size=0.6
+    )
 
-y_train = x[:60] #처음부터 60까지 // index 0~59번째의 array 안의 값 
-y_val = x[60:80] #61~80 // 
-y_test = x[80:]  #81~100
+
+    
+
+
+#train size 0.6, test 0.2, train 0.2
+
+# 4:2:2
+# x_train = x[:60] #처음부터 60까지
+# x_val = x[60:80]
+# x_test = x[80:]
+
+# y_train = x[:60] #처음부터 60까지 // index 0~59번째의 array 안의 값 
+# y_val = x[60:80] #61~80 // 
+# y_test = x[80:]  #81~100
 
 print(x_train)
 print(y_train)
@@ -81,7 +96,7 @@ model.summary()
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
                #손실함수/   최적화함수/      판정방식 : 회귀방식 predict에 분류지표 accuracy가 들어가면 안됨.
 model.fit(x_train, y_train, epochs=200, batch_size=1,
-          validation_data=(x_val, y_val))
+        validation_split=0.3),
           
 
 
