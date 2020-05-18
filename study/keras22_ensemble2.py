@@ -1,5 +1,14 @@
 #1. 데이터_일부 전처리 해줌. 
 import numpy as np
+
+x1 = np.transpose([range(1,101), range(311,411)])
+x2 = np.transpose([range(1,101),range(311,411)])
+
+y1 = np.transpose([range(101,201), range(411,511)])
+y2 = np.transpose([range(501,601),range(711,811)])
+y3 = np.transpose([range(411,511),range(611,711)])
+
+'''
 x1 = np.array([range(1,101), range(311,411)]) #1~100 (미만으로 보자!) 한두개 틀려도 돌아감. 
 x2 = np.array([range(101,201),range(711,811)]) #0~99,
 
@@ -7,7 +16,7 @@ y1 = np.array([range(101,201), range(411,511)])
 y2 = np.array([range(501,601),range(711,811)]) 
 y3 = np.array([range(411,511),range(611,711)]) #(100,2) 총 세개
 
-###여기서부터 수정하기####
+##여기서부터 수정하기####
 
 
 #weight=1, bias는 각자 다름
@@ -17,9 +26,9 @@ x2 = np.transpose(x2)
 y1 = np.transpose(y1)
 y2 = np.transpose(y2)
 y3 = np.transpose(y3)
-#(3,100)에서 (100,3)으로 변경
-#인풋 아웃풋 3개씩
-
+# (3,100)에서 (100,3)으로 변경
+# 인풋 아웃풋 3개씩
+'''
 
 from sklearn.model_selection import train_test_split
 x1_train, x1_test, y1_train, y1_test = train_test_split ( 
@@ -90,7 +99,7 @@ output3_2 = Dense(7)(output3)
 output3_3 = Dense(2)(output3_2) #아웃풋2!!!!
 
 
-
+##model 명시##
 model = Model(inputs=[input1,input2], 
              outputs=[output1_3,output2_3,output3_3]) #함수형 모델 범위 하단에 명시, 함수형모델 이름을 model 소문자로 씀/제일 처음, 제일 끝
 
@@ -105,12 +114,13 @@ model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 model.fit([x1_train, x2_train], [y1_train, y2_train, y3_train], epochs=100, batch_size=2,
         verbose=1, validation_split= 0.5)
     #x_train : (60, 3), x_val : (30, 3), x_test : (20,3)
-    #verbose가 0,1정도 되면 더 자세하게 보여주고 수치가 높아지면 간략화해서 보여줌
+    #verbose가 0,1정도 되면 더 자세하게 보여주고 수치가 높아지면 간략화해서 보여줌f
           
 
 
 #4. 평가,예측
 loss = model.evaluate([x1_test, x2_test],[y1_test, y2_test, y3_test], batch_size=2) 
+print("model.metrics_names : ", model.metrics_names) 
 
 '''
 반환값 5개
