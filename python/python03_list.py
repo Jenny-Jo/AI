@@ -52,20 +52,20 @@ x_train, x_test, y_train, y_test = train_test_split (
     
     train_size=0.8
     )
-print(type(x_train)) #<class 'numpy.ndarray'> /sklearn에서 nump로 바꿔줌/numpy 속도가 엄청빠름/같은 타입만 쓸 수 있음
+print(type(x_train)) #<class 'numpy.ndarray'> /sklearn에서 numpy로 바꿔줌/numpy 속도가 엄청빠름/같은 타입만 쓸 수 있음
 
 '''
 
 #리스트 관련 함수
 a = [1,2,3]
 a.append(4) #덧붙이다 / range 등으로 데이타 가져올 때 씀 '.append'붙임
-print(a)
+print(a) #[1, 2, 3, 4]
 
 # a = a.append(5)
 # print(a) #문법 에러/ None
 
 a.append(5) #이렇게만 써야함*************************잊으면 안된다!!
-print(a)
+print(a) #[1, 2, 3, 4, 5]
 
 a = [1, 3, 4, 2]
 a.sort() #정렬 
@@ -89,3 +89,4 @@ print(a) #[4, 3, 3, 2, 1]
 a.remove(3)
 print(a) #[4, 3, 2, 1], 먼저 걸린 것 지워진다
 
+##list, slicing, append는 자주 쓸 것이다!!!
