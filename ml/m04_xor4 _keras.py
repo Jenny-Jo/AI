@@ -18,10 +18,12 @@ print(y_data.shape) # (4, )
 # layer 마다 연산을 시키기 위해 리스트에서 넘파이로 해줌
 
 # 2. Model
-# model = LinearSVC()
-# model = SVC()
-# lin = LinearSVC()
-# kn = KNeighborsClassifier()
+# model = LinearSVC()분류
+# model = SVC()분류
+# kn = KNeighborsClassifier(n_neighbors = 1)
+# model = KNeighborsRegressor(n_neighbors = 1)
+# model = RandomForestClassifier()                      
+# model = RandomForestRegressor()
 # 이런식으로 임의로 정의해줌
 
 model = Sequential()
