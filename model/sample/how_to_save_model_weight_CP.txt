@@ -1,0 +1,32 @@
+mnist
+cifar10
+fashion mnist
+cifar100
+boston
+
+
+iris
+diabetes
+cancer
+
+~~_model.save.h5.py
+~~_save_weight.h5.py
+~~_checkpoint_best.h5.py
+----------------------------------------------------------------------------
+1)
+fit 바로 전
+modelpath = './model/sample/폴더명/ {epoch:02d} - {val_loss:  . 4f}_checkpoint_best.hdf5'
+checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'val_loss', 
+                            verbose =1,
+                            save_best_only= True, save_weights_only= False)
+
+callbacks에 불러주고/넣어주기
+
+2)
+모델(model)이나 fit 뒤(model+W)에다가
+model.save('./model/sample/폴더명/이름_model.save.h5')
+
+3)
+fit 다음
+model.save_weights('./model/sample/폴더명/이름_save_weight.h5')
+
