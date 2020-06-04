@@ -11,6 +11,8 @@ y_data = [0, 1, 1, 0]
 # 2. Model
 # model = LinearSVC()
 # model = SVC()
+# model = RandomForestRegressor()
+
 model = KNeighborsClassifier(n_neighbors=1)
 
 

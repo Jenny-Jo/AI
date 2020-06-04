@@ -14,7 +14,7 @@ model = LinearSVC()
 # 3. Fit
 model.fit(x_data, y_data)
 
-# 4. Evaluate = score, Predict
+# 4. Evaluate => score, Predict
 x_test = [[0, 0], [1, 0], [0, 1], [1, 1]]
 y_predict = model.predict(x_test)
 
