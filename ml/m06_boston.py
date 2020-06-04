@@ -1,6 +1,18 @@
 # 회귀 regressor
+# 회귀 score, R2 비교
+# 분류 score와 accuracy_score 비교
 
+
+from sklearn.svm import LinearSVC, SVC #회귀 모델
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from sklearn.metrics import accuracy_score
+from keras.models import Sequential
+from keras.layers import Dense
 import numpy as np
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+
 from sklearn.datasets import load_boston
 
 dataset = load_boston()
@@ -16,10 +28,32 @@ print(x_scaled)
 
 from sklearn.decomposition import PCA
 
-pca = PCA(n_components=2)
+pca = PCA(n_components=2) #차원 두개로 나눠준다
 pca.fit(x_scaled)
-x_pca = pca. transform(x_scaled)
+x_pca = pca.transform(x_scaled)
 print(x_pca)
 
 from sklearn.model_selection import train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(x_pca, y, random_state= 66, 
+shuffle= True, train_size = 0.8)
+
+# 2. Model
+
+# model = LinearSVC()분류
+# model = SVC()분류
+# model = KNeighborsClassifier(n_neighbors = 1)
+# model = KNeighborsRegressor(n_neighbors = 1)
+# model = RandomForestClassifier()                      
+model = RandomForestRegressor() #이게 나음
+
+# 3. Fit
+model.fit(x_train, y_train)
+
+# 4. score, predict
+from sklearn.metrics import accuracy_score, r2_score
+
+score = model.score(x_test, y_test)
+print('score', score)
+
 

@@ -112,10 +112,10 @@ print(x1.shape, y.shape) # (504, 5) (504,)
 
 
 # 
-x2 = hite
-print(x2.shape) #(509, 5)
+x2 = hite_pca
+print(x2.shape) #(509, 2)
 x2 = x2[ : -5, :]
-print(x2.shape) #(504,5 )
+print(x2.shape) #(504, 2)
 
 
 
@@ -123,32 +123,33 @@ print('------------5----------------------')
 
 # 데이터 전처리 7 // train, test 나누기
 from sklearn.model_selection import train_test_split
-x1_train, x1_test= train_test_split(x1, train_size=0.8)
+x1_train, x1_test= train_test_split(x1, shuffle = False,train_size=0.8)
 
-print(x1_train.shape) 
-print(x1_test.shape)  
+print(x1_train.shape) # (403, 5)
+print(x1_test.shape)  # (101, 5)
 
-x2_train, x2_test= train_test_split(x2, train_size=0.8)
+x2_train, x2_test= train_test_split(x2, shuffle = False,train_size=0.8)
 
-print(x2_train.shape)
-print(x2_test.shape)  
+print(x2_train.shape)  # (403, 2)
+print(x2_test.shape)   # (101, 2)
 
-y_train, y_test= train_test_split(y, train_size=0.8)
+y_train, y_test= train_test_split(y, shuffle = False,train_size=0.8)
 
 print(y_train.shape)  
 print(y_test.shape)  
 
+# x1_train, x1_test, x2_train, x2_test, y_train, y_test=train_test_split(x1, x2, y, shuffle=False, train_size=0.8)
 
 # 2. model 앙상블 구성 lstm!!
 from keras.models import Sequential, Model
 from keras.layers import Dense, Input, LSTM
 
-input1 = Input(shape =( 5, ))
+input1 = Input(shape =(5, ))
 dense1 = Dense(300, activation='relu')(input1)
 dense1 = Dropout(0.2)(dense1)
 
 
-input2 = Input(shape =( 5, ))
+input2 = Input(shape =(2, ))
 dense2 = Dense(300, activation='relu')(input2)
 dense2 = Dropout(0.2)(dense2)
 
@@ -172,17 +173,19 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 
 earlystopping= EarlyStopping( monitor = 'loss', patience = 20 )
 
+'''
 modelpath='./model/{epoch:02d} - {val_loss:.4f}.hdf5'
 checkpoint = ModelCheckpoint(filepath= modelpath, monitor='val_loss', save_best_only=True, mode = 'auto')
 
+
 tensorboard = TensorBoard(log_dir ='graph', histogram_freq=0, write_graph=True, write_images=True)
+'''
 
-
-hist = model.fit([x1_train,x2_train], y_train, epochs =30, batch_size=100, verbose=1,
+hist = model.fit([x1_train,x2_train], y_train, epochs =1, batch_size=100, verbose=1,
                 validation_split=0.4, 
-                callbacks=[earlystopping, checkpoint,tensorboard])
+                callbacks=[earlystopping]) #checkpoint,tensorboard])
 
-model.save('./test_samsung.py/test0602_HyunJung.save.h5')
+# model.save('./test_samsung.py/test0602_HyunJung.save.h5')
 
 
 
@@ -200,13 +203,22 @@ print('val_mse: ', val_mse)
 print('loss, mse : ',loss_mse )
 
 
+# x2 tes
+
+print(samsung1[-1, 1:6].shape) #(5, )
+z = samsung1[-1, 1:6] 
+z = z.reshape(1, 5)
+print('z.shape : ', z.shape)#(5, 1)
+print('x2_test.shape : ', x2_test.shape) # (101, 2)
+
+y1_pred = model.predict([z, x2_test])
+print('x1_test[-1, :] : ', y1_pred)
 
 
-y1_pred = model.predict([x1_test,x2_test])
-
+y_last = model.predict([x1_test[-1, 1: ], x2])
 for i in range(5) :
     print('마지막날 시가: ', y_test[i], '/예측가: ', y1_pred[i])
-
+'''
 # plt
 
 import matplotlib.pyplot as plt
@@ -234,7 +246,7 @@ plt.xlabel('epoch')
 plt.legend(['mse', 'val_mse'])
 
 plt.show()
-
+'''
 
 # RMSE 구하기
 
