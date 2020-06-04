@@ -40,20 +40,24 @@ shuffle= True, train_size = 0.8)
 
 # 2. Model
 
-# model = LinearSVC()분류
-# model = SVC()분류
-# model = KNeighborsClassifier(n_neighbors = 1)
-# model = KNeighborsRegressor(n_neighbors = 1)
-# model = RandomForestClassifier()                      
-model = RandomForestRegressor() #이게 나음
+# model = LinearSVC() # error
+# model = SVC() # error
+# model = KNeighborsClassifier(n_neighbors = 1) # error
+model = KNeighborsRegressor(n_neighbors = 1) # 0.44
+# model = RandomForestClassifier()  # error                    
+# model = RandomForestRegressor() #이게 나음/ R2 0.68
 
 # 3. Fit
 model.fit(x_train, y_train)
 
 # 4. score, predict
 from sklearn.metrics import accuracy_score, r2_score
+y_predict = model.predict(x_test)
 
 score = model.score(x_test, y_test)
 print('score', score)
 
-
+# acc = accuracy_score(y_test, y_predict)
+R2 = r2_score(y_test, y_predict)
+print('R2:', R2)
+# print('acc', acc)

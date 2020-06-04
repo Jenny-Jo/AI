@@ -40,9 +40,9 @@ x_train, x_test, y_train, y_test = train_test_split(x,y,train_size=0.8, shuffle 
 # model = RandomForestClassifier() #0.96
 # model = LinearSVC() # 0.93
 # model = SVC() # 0.96
-model = KNeighborsClassifier(n_neighbors = 1) # 0.96
+# model = KNeighborsClassifier(n_neighbors = 1) # 0.96
 # model = KNeighborsRegressor(n_neighbors = 1) # 0.94, acc 0.96
-# model = RandomForestClassifier()               #0.9 , acc       
+model = RandomForestClassifier()               #0.9 , acc       
 # model = RandomForestRegressor() # error
 # 모델별로 acc 구하기
 

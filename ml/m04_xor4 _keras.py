@@ -5,9 +5,10 @@
 from keras.models import Sequential
 from keras.layers import Dense
 import numpy as np
-from sklearn.svm._classes import LinearSVC
+from sklearn.svm._classes import LinearSVC, SVC
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor # 군집 분석
 from keras.layers.core import Dropout
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
 # 1. Data
 x_data = np.array([[0,0], [1, 0], [0, 1], [1, 1]])
@@ -18,12 +19,12 @@ print(y_data.shape) # (4, )
 # layer 마다 연산을 시키기 위해 리스트에서 넘파이로 해줌
 
 # 2. Model
-# model = LinearSVC()분류
-# model = SVC()분류
-# kn = KNeighborsClassifier(n_neighbors = 1)
-# model = KNeighborsRegressor(n_neighbors = 1)
-# model = RandomForestClassifier()                      
-# model = RandomForestRegressor()
+# model = LinearSVC() # 1.0
+# model = SVC() # 1.0
+# kn = KNeighborsClassifier(n_neighbors = 1) # 1.0
+# model = KNeighborsRegressor(n_neighbors = 1) # 1.0
+# model = RandomForestClassifier() # 1.0                    
+model = RandomForestRegressor() # 1.0
 # 이런식으로 임의로 정의해줌
 
 model = Sequential()
