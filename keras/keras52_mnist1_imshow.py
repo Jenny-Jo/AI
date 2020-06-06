@@ -75,6 +75,11 @@ print(x_test.shape)                     #(10000, 28, 28)
 print(y_train.shape)                    #(60000,) 스칼라, 1 dim(vector)
 print(y_test.shape)                     #(10000,)
 
+x_train = x_train / 255
+
+from keras.utils import np_utils
+y_train = np_utils.to_categorical(y_train)
+y_test = np_utils.to_categorical(y_test)
 
 print(x_train[1].shape) #(28,28) 짜리 
 #########################################
