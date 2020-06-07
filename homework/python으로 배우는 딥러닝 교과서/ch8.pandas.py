@@ -52,7 +52,9 @@ print(df)
 # 2      banana   2001     5
 # 3  strawberry   2008     6
 # 4   kiwifruit   2006     3
-#8_5
+
+
+# Series 생성
 import pandas as pd
 fruits ={"banana": 3, "orange":2}
 print(pd.Series(fruits))
@@ -82,7 +84,9 @@ print(series)
 # strawberry    12
 # kiwifruit      3
 # dtype: int64
-#8_8
+
+#참조
+#참조 1)
 import pandas as pd
 fruits = {"banana": 3, "orange": 4, "grape": 1, "peach":5}
 series = pd.Series(fruits)
@@ -90,7 +94,7 @@ print(series[0:2])
 # banana    3
 # orange    4
 # dtype: int64
-#8_9
+#참조 2)
 print(series[["orange", "peach"]])
 # orange    4
 # peach     5
