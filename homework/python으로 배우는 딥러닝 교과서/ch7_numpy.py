@@ -27,3 +27,42 @@ storages = [24,3,54,6,7,12]
 print(storages)
 np_storages = np.array(storages)
 print(type(np_storages))
+
+import numpy as np
+arr = np.array([2,5,3,4,8])
+
+print(arr+arr)
+print(arr-arr)
+print(arr**3)
+print(1/arr)
+
+arr = np.arange(10)
+print(arr)
+print(arr[3:6])
+arr[3:6]=24
+print(arr)
+
+# 복사할 배열.copy()
+arr1= np.array([1,2,3,4,5])
+arr2= arr1.copy()
+arr2[0] = 100
+print(arr1)
+
+# arr_NumPy = np.arrage(10)
+# arr_Numpy_copy = arr_NumPy[:].copy() 
+# copy 사용시 복사본 생성 되어 arr_NumPy_copy는 arr_NumPy에 영향 미치지 않음
+
+# 부울 인덱스 참조
+import numpy as np
+s = np.array([2,3,4,5,6,7])
+print(s[s%2==0])
+print(s%2==0) # [ True False  True False  True False]
+
+# 범용 함수
+import numpy as np
+arr = np.array([4,-9,16,-4,20])
+arr_abs = np.abs(arr)
+arr_e = np.exp(arr_abs)
+print(arr_e)
+arr_sqrt = np.sqrt(arr_abs)
+print(arr_sqrt)
