@@ -66,3 +66,22 @@ arr_e = np.exp(arr_abs)
 print(arr_e)
 arr_sqrt = np.sqrt(arr_abs)
 print(arr_sqrt)
+
+# 집합 함수
+arr1 = [2,5,7,9,2]
+arr2 = [2,4,7,8,3]
+new_arr1 = np.unique(arr1)
+print(new_arr1)                         # 중복제거
+print(np.union1d(new_arr1,arr2))        # 합집합
+print(np.intersect1d(new_arr1,arr2))    # 교집합
+print(np.setdiff1d(new_arr1,arr2))      # 차집합
+
+# 난수
+from numpy.random import randint, rand
+# np.random.randit으로 매번 안쳐도 됨
+arr1 = randint(0,11,(5,2))              # 0에서 10 사이 5*2 행렬의 난수
+print(arr1)
+arr2 = rand(3)                          # 0~1사이 3개의 난수
+print(arr2)
+
+
