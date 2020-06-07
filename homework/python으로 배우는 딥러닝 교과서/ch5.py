@@ -77,6 +77,7 @@ for i in number:
     print(i)
 print('------------')
 
+# for 문에서 index 표시
 a = ['a','b']
 for c, d in enumerate(a):
     print(c, d)
@@ -86,8 +87,31 @@ for a, b in enumerate(animals):
     print('index:'+str(a ) , b)
     # print('index:'+str(a ) + b) +와 ,의 차이는? + 는 바로 붙여 쓰지만 ,는 띄어쓰기 있음
 
+# lsit안의 list  loop
 fruits = [['strawberry', 'red'],['peach','pink'],['banana','yellow']]
 for a, b in fruits:
     print(a,"is",b)
 
+# dic 형 loop
+town = {'경기도': '분당', '서울': '중구', '제주도': '제주시'}
+for a, b in town.items():
+    print(a, b)
 
+print("------------연습문제------------------------")
+
+items = {"지우개": [100,2], 'pen':[200,3], 'note':[400,5]}
+total_price = 0
+
+for a in items :
+    print(a+'은/는 한개에',str(items[a][0]),'원이며,', str(items[a][1]),'개 구입합니다')
+    total_price += items[a][0] *items[a][1]
+print('총 가격은 ', total_price , '원 입니다')
+
+money = 2000
+b = money - total_price
+if b>0:
+    print("거스름돈은", b, '원입니다')
+elif b == 0:
+    print("거스름돈은", b,'원입니다.')
+else :
+    print('돈이 부족합니다')
