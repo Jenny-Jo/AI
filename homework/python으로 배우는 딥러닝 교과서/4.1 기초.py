@@ -65,3 +65,17 @@ for i in range(10) :
 n =15
 if n > 6 :
     print("큰 숫자")
+
+n_1 = 14
+n_2 = 28
+
+print(n_1>8 and n_1<14) # False
+print(not n_1 **2 < n_2*5) # True
+
+n = 2021
+if n % 400 !=0 and n % 100 ==0  :
+    print(str(n) + "은 평년")
+elif n % 4 ==0 :
+    print(str(n) + "은 윤년")
+else :
+    print(str(n)+"평년")
