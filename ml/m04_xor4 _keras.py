@@ -5,7 +5,7 @@
 from keras.models import Sequential
 from keras.layers import Dense
 import numpy as np
-from sklearn.svm._classes import LinearSVC, SVC
+from sklearn.svm.classes import LinearSVC, SVC
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor # 군집 분석
 from keras.layers.core import Dropout
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
@@ -25,7 +25,9 @@ print(y_data.shape) # (4, )
 # model = KNeighborsRegressor(n_neighbors = 1) # 1.0
 # model = RandomForestClassifier() # 1.0                    
 model = RandomForestRegressor() # 1.0
-# 이런식으로 임의로 정의해줌
+# 이런식으로 임의로 정의해줌//
+# logistic은 분류
+# 모델 비교 해봐야 암
 
 model = Sequential()
 

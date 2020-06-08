@@ -18,11 +18,14 @@ model = KNeighborsClassifier(n_neighbors=1)
 
 
 # 이거 하나면 끝
+# 이런식으로 임의로 정의해줌//
+# logistic은 분류
+# 모델 비교 해봐야 암
 
 # 3. Fit
 model.fit(x_data, y_data)
 
-# 4. score, Predict
+# 4. evaluate = score, Predict
 x_test = [[0, 0], [1, 0], [0, 1], [1, 1]]
 y_predict = model.predict(x_test)
 

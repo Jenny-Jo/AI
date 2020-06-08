@@ -116,6 +116,8 @@ print(items2)
 # apple        10
 # banana        8
 # kiwifruit     3
+
+# 데이터와 인덱스 추출
 #8_12, #8_13
 import pandas as pd
 index = ["apple", "orange", "banana", "strawberry", "kiwifruit"]
@@ -127,6 +129,8 @@ print(series_values)
 print(series_index)
 # [10  5  8 12  3]
 # Index(['apple', 'orange', 'banana', 'strawberry', 'kiwifruit'], dtype='object')
+
+#요소추가
 #8_14
 import pandas as pd
 fruits = {"banana": 3, "orange": 2}
