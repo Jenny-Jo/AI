@@ -33,9 +33,10 @@ x_train, x_test, y_train, y_test = train_test_split(x1, y1, train_size =0.8)
 # 2. model
 
 model = Sequential()
-model.add(LSTM(200, input_shape = (375, 5), activation='relu', return_sequences=True))
-model.add(LSTM(200, activation='relu'))
-model.add(Dropout(0.3))
+model.add(Conv1D(200,4, input_shape = (375, 5), padding = 'same'))
+model.add(Conv1D(200,4, padding = 'same'))
+model.add(MaxPooling1D())
+model.add(Flatten())
 model.add(Dense(4))
 
 model.summary()

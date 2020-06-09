@@ -76,10 +76,10 @@ model.summary()
 
 # 3. compile, fit
 model.compile(optimizer = 'adam',loss = 'mae', metrics = ['mae'])
-model.fit(x_train, y_train, epochs= 30, batch_size =10, validation_split = 0.3)
+model.fit(x_train, y_train, epochs= 30, batch_size =100, validation_split = 0.3)
 
 # 4. evaluation, predict
-loss, mae = model.evaluate(x_test, y_test, batch_size=1) 
+loss, mae = model.evaluate(x_test, y_test, batch_size=100) 
 y_predict = model.predict(x_predict)
 print('loss,mae:  ', loss,mae)
 print(y_predict.shape)
