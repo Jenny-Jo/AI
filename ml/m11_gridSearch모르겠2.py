@@ -29,7 +29,7 @@ parameters = [
 
 kfold = KFold(n_splits = 5, shuffle = True)                                                  # train, validation
 
-model = GridSearchCV(SVC(), parameters, cv =  kfold)  # SVC()모델을 가지고 parameters를 조정하고, kfold만큼 
+model = GridSearchCV(SVC(), parameters, cv =  kfold )  # SVC()모델을 가지고 parameters를 조정하고, kfold만큼 
      #  진짜 모델,     그 모델의 파라미터 , cross_validtion 수
 
 

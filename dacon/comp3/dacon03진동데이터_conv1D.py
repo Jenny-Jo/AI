@@ -33,11 +33,24 @@ x_train, x_test, y_train, y_test = train_test_split(x1, y1, train_size =0.8)
 # 2. model
 
 model = Sequential()
-model.add(Conv1D(10,3, input_shape = (375, 5), padding = 'same', activation='relu'))
-model.add(Conv1D(10,3, padding = 'same', activation='relu'))
+model.add(Conv1D(100,3, input_shape = (375, 5), padding = 'same', activation='relu'))
+model.add(Dropout(0.3))
+model.add(Conv1D(100,3, padding = 'same', activation='relu'))
 model.add(Dropout(0.3))
 model.add(MaxPooling1D())
 model.add(Flatten())
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
 model.add(Dense(10, activation='relu'))
 model.add(Dropout(0.2))
 model.add(Dense(10, activation='relu'))
@@ -75,10 +88,53 @@ print(y_pred)
 
 y_pred.to_csv('./dacon/comp3/comp3_y_pred.csv',index=False)
 
+import numpy as np
+
+def kaeri_metric(y_true, y_pred):
+    '''
+    y_true: dataframe with true values of X,Y,M,V
+    y_pred: dataframe with pred values of X,Y,M,V
+    
+    return: KAERI metric
+    '''
+    
+    return 0.5 * E1(y_true, y_pred) + 0.5 * E2(y_true, y_pred)
 
 
+### E1과 E2는 아래에 정의됨 ###
+
+def E1(y_true, y_pred):
+    '''
+    y_true: dataframe with true values of X,Y,M,V
+    y_pred: dataframe with pred values of X,Y,M,V
+    
+    return: distance error normalized with 2e+04
+    '''
+    
+    _t, _p = np.array(y_true)[:,:2], np.array(y_pred)[:,:2]
+    
+    return np.mean(np.sum(np.square(_t - _p), axis = 1) / 2e+04)
 
 
+def E2(y_true, y_pred):
+    '''
+    y_true: dataframe with true values of X,Y,M,V
+    y_pred: dataframe with pred values of X,Y,M,V
+    
+    return: sum of mass and velocity's mean squared percentage error
+    '''
+    
+    _t, _p = np.array(y_true)[:,2:], np.array(y_pred)[:,2:]
+    
+    
+    return np.mean(np.sum(np.square((_t - _p) / (_t + 1e-06)), axis = 1))
+
+y_pred1 = model.predict(x_test)
+print(kaeri_metric(y_test, y_pred1))
+print(E1(y_test, y_pred1))
+print(E2(y_test, y_pred1))
+
+print((kaeri_metric(y_test, y_pred1) + E1(y_test, y_pred1) +E2(y_test, y_pred1))/3)
 
 
 
