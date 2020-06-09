@@ -9,9 +9,9 @@ from sklearn.decomposition import PCA
 # 1. data
 
 # 1) 불러 오기
-test_features = pd.read_csv("./data/dacon/comp2/test_features.csv",  header = 0, index_col = 0)
-train_features = pd.read_csv("./data/dacon/comp2/train_features.csv", header = 0, index_col = 0)
-train_target = pd.read_csv("./data/dacon/comp2/train_target.csv", header = 0, index_col = 0)
+test_features = pd.read_csv("./data/dacon/comp3/test_features.csv",  header = 0, index_col = 0)
+train_features = pd.read_csv("./data/dacon/comp3/train_features.csv", header = 0, index_col = 0)
+train_target = pd.read_csv("./data/dacon/comp3/train_target.csv", header = 0, index_col = 0)
 
 # 2) shape
 print(train_features)   # (1050000, 5)
@@ -33,17 +33,30 @@ x_train, x_test, y_train, y_test = train_test_split(x1, y1, train_size =0.8)
 # 2. model
 
 model = Sequential()
-model.add(Conv1D(200,4, input_shape = (375, 5), padding = 'same'))
-model.add(Conv1D(200,4, padding = 'same'))
+model.add(Conv1D(10,3, input_shape = (375, 5), padding = 'same', activation='relu'))
+model.add(Conv1D(10,3, padding = 'same', activation='relu'))
+model.add(Dropout(0.3))
 model.add(MaxPooling1D())
 model.add(Flatten())
-model.add(Dense(4))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(4, activation='relu'))
 
 model.summary()
 
 # 3. compile, fit
 model.compile(optimizer='adam', loss='mse', metrics=['mse'])
-model.fit(x_train,y_train, epochs=30, batch_size=10, validation_split=0.2)
+model.fit(x_train,y_train, epochs=50, batch_size=10, validation_split=0.2)
 
 # 4. evaluation, predict
 loss, mse = model.evaluate(x_test,y_test, batch_size=10)
@@ -60,7 +73,7 @@ y_pred = pd.DataFrame({
 })
 print(y_pred)
 
-y_pred.to_csv('./dacon/comp3/comp3_y_pred.csv')
+y_pred.to_csv('./dacon/comp3/comp3_y_pred.csv',index=False)
 
 
 

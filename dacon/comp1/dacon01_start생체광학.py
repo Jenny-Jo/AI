@@ -93,8 +93,8 @@ y_pred = pd.DataFrame({
 })
 print(y_pred)
 
-y_pred.to_csv('./dacon/y_pred.csv', index = False)
-model.save('./dacon/dacon1_model.save.h5')
+y_pred.to_csv('./dacon/comp1/y_pred.csv', index = False)
+model.save('./dacon/comp1/dacon1_model.save.h5')
 
 
 
