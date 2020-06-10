@@ -59,13 +59,13 @@ def build_model(drop=0.5, optimizer = 'adam'):
 # parameter
 def create_hyperparameters():
     batches = [10, 20, 30, 40, 50]
-    optimizers = ['rmsprop', 'adam', 'adadelta']
+    optimizers = ['rmspr                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        op', 'adam', 'adadelta']
     dropout = np.linspace(0.1, 0.5, 5)                           # 
     return{'batch_size' : batches, 'optimizer': optimizers, 
            'drop': dropout}                                       # dictionary형태
 
 # wrapper
-from keras.wrappers.scikit_learn import KerasClassifier # sklearn에서 쓸수 있도로 keras모델 wrapping
+from keras.wrappers.scikit_learn import KerasClassifier # ML/sklearn에서 쓸수 있도로 keras모델 wrapping
 model = KerasClassifier(build_fn = build_model, verbose = 1)
 
 hyperparameters = create_hyperparameters()

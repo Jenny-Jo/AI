@@ -17,11 +17,6 @@ print(y)
 
 kfold=KFold(n_splits=5, shuffle=True)
 
-
-
-
-
-
 allAlgorithms = all_estimators(type_filter = 'classifier') # 26개 모델
 
 for (name, algorithm) in allAlgorithms:

@@ -1,11 +1,14 @@
 import numpy as np
 import pandas as pd
-from keras.layers import LSTM, Dense, Dropout, Conv1D,Flatten, MaxPooling1D
-from keras.models import Sequential
+from keras.layers import LSTM, Dense, Dropout, Conv1D,Flatten, MaxPooling1D, Input
+from keras.models import Sequential, Model
 from sklearn.model_selection import KFold, RandomizedSearchCV, train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+import warnings
+
+warnings.filterwarnings('ignore')
 
 # 1. data
 
@@ -19,64 +22,86 @@ print(train_features)   # (1050000, 5)
 print(train_target)     # (2800, 4)
 print(test_features)    # (262500, 5)
 
-
-
+#  행 같게 맞춰줘야
 
 # 3) x, y 나눠주기
-x1 = train_features.values.reshape(2800,375,5)
+x1 = train_features.values.reshape(2800, 375*5 )
 y1 = train_target               # (2800, 4)
-x_predict = test_features.values.reshape(700, 375, 5)
+x_predict = test_features.values
+# (x1이랑 열이 같게/인풋쉐입 같게)
+
 
 # 4) Standard scaler, PCA
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(x1)
+x1 = scaler.transform(x1)
+x_predict = scaler.transform(x1)
+
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+pca.fit(x1)
+x1 = pca.transform(x1) 
+x_predict = pca.transform(x_predict)
+
+
+
+
 
 x_train, x_test, y_train, y_test = train_test_split(x1, y1, train_size =0.8,random_state=13)
 
-# 2. model
+def build_model(drop=0.5, optimizer = 'adam'):
+    inputs = Input(shape= (2, ), name = 'input')
+    x = Dense(512, activation = 'relu', name = 'hidden1')(inputs)
+    x = Dropout(drop)(x)
+    x = Dense(256, activation = 'relu', name = 'hidden2')(x)
+    x = Dropout(drop)(x)
+    x = Dense(128, activation = 'relu', name = 'hidden3')(x)
+    x = Dropout(drop)(x)
+    outputs = Dense(4, activation = 'softmax', name = 'output')(x)
+    model = Model(inputs = inputs, outputs = outputs)
+    model.compile(optimizer = optimizer, metrics = ['mse'],
+                  loss = 'mse')
+    return model
 
-model = Sequential()
-model.add(Conv1D(100,3, input_shape = (375, 5), padding = 'same', activation='relu'))
-model.add(Dropout(0.3))
-model.add(Conv1D(100,3, padding = 'same', activation='relu'))
-model.add(Dropout(0.3))
-model.add(MaxPooling1D())
-model.add(Flatten())
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(4, activation='relu'))
+# parameter
+def create_hyperparameters():
+    batches = [10, 20, 30, 40, 50]
+    optimizers = ['rmsprop', 'adam', 'adadelta']
+    # dropout = np.linspace(0.1, 0.5, 5)                           # 
+    return{'batch_size' : batches, 'optimizer': optimizers
+           }                                       # dictionary형태
 
-model.summary()
+# wrapper
+from keras.wrappers.scikit_learn import KerasClassifier # sklearn에서 쓸수 있도로 keras모델 wrapping
+model = KerasClassifier(build_fn = build_model, verbose = 1)
 
-# 3. compile, fit
-model.compile(optimizer='adam', loss='mse', metrics=['mse'])
-model.fit(x_train,y_train, epochs=50, batch_size=10, validation_split=0.2)
+hyperparameters = create_hyperparameters()
 
-# 4. evaluation, predict
-loss, mse = model.evaluate(x_test,y_test, batch_size=10)
-y_predict = model.predict(x_predict)
-print('loss,mse : ', loss, mse)
-print(y_predict.shape)
+# gridsearch
+from sklearn.model_selection import GridSearchCV,  RandomizedSearchCV
+from sklearn.metrics import accuracy_score
+search = RandomizedSearchCV(model, hyperparameters, cv = 3, n_jobs = -1 )            # cv = cross_validation
+# with n_jobs=1 it uses 100% of the cpu of one of the cores. Each process is run in a different core.
+# # 모형 최적화 병렬/분산 처리¶
+# 모형 최적화를 위해서는 많은 반복 처리과 계산량이 필요하다. 보통은 복수의 프로세스, 혹은 컴퓨터에서 여러가지 다른 하이퍼 모수를 가진 모형을 훈련시킴으로써 모형 최적화에 드는 시간을 줄일 수 있다.
+
+# Scikit-Learn 패키지의 기본 병렬 처리¶
+# GridSearchCV 명령에는 n_jobs 라는 인수가 있다. 디폴트 값은 1인데 이 값을 증가시키면 내부적으로 멀티 프로세스를 사용하여 그리드서치를 수행한다. 만약 CPU 코어의 수가 충분하다면 n_jobs를 늘릴 수록 속도가 증가한다.
+
+# fit
+search.fit(x_train, y_train)
+acc = search.score(x_test, y_test, verbose = 0)
+
+
+# print('최적의 매개변수 : ', model.best_estimator_)
+# y_pred = model.predict(x_test)
+# print("최종 정답률 = ", accuracy_score(y_test, y_pred) )
+
+print(search.best_params_)   # serch.best_estimator_
+print("acc : ", acc)
+
+y_predict = search.predict(x_predict) #
 
 y_pred = pd.DataFrame({
     'id' : np.array(range(2800, 3500)),
@@ -94,6 +119,8 @@ y_pred.to_csv('./dacon/comp3/comp3_y_pred.csv',index=False)
 
 import numpy as np
 from sklearn.metrics import r2_score
+from docutils.io import Input
+from bokeh.model import Model
 
 def kaeri_metric(y_true, y_pred):
     '''

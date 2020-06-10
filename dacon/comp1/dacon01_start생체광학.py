@@ -33,7 +33,7 @@ print('submission.shape : ', submission.shape)
 # print(train.isnull().sum())
 # 3-1) interpolate
 train = train.interpolate() #  보간법// 선형보간 -값들 전체의 선을 그리고 빈 자리를 선에 맞게 그려줌
-test = test.interpolate() #  보간법// 선형보간 -값들 전체의 선을 그리고 빈 자리를 선에 맞게 그려줌
+test = test.interpolate() 
 
 # 3-2) 첫행도 채워주기
 train = train.fillna(method='bfill') 
