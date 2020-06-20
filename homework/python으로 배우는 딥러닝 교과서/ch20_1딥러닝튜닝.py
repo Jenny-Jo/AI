@@ -21,12 +21,15 @@ y_test = to_categorical(y_test)[:1000]
 # 1. Model 생성
 model = Sequential()
 model.add(Dense(256, input_dim = 784))
+# hyperparameter : 활성화 함수
 model.add(Activation('sigmoid'))
+# haperparameter : 은닉층 수, 은닉층의 채널 수(output)
 model.add(Dense(10))
 model.add(Dense(10))
 
 model.add(Dense(128))
 model.add(Activation('sigmoid'))
+# hyperparameter : dropout rate
 model.add(Dropout(rate=0.5))
 model.add(Dense(10))
 model.add(Activation('softmax'))
@@ -34,14 +37,17 @@ model.add(Activation('softmax'))
 model.summary()
 
 # 컴파일
+# heperparameter : lr : learning rate
 sgd = optimizers.SGD(lr=0.1)
+# hyperparameter : 최적화 함수 optimizer, 오차 함수 loss
+# metrics는 평가 함수라 학습 자체에 관계가 없다
 model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['acc'])
 
 # 2. 학습
+# hyperparameter 배치처리크기, epoch 수
 history= model.fit(x_train, y_train, batch_size=500, epochs=5, verbose=1, validation_data=(x_test, y_test))
 # fit의 출력인 acc
 print('====================  ')
-
 
 # 4. 모델 분류
 score = model.evaluate(x_test, y_test, verbose=1)

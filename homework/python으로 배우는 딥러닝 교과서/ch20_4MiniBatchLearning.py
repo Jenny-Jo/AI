@@ -21,29 +21,64 @@ y_test = to_categorical(y_test)[:1000]
 # 1. Model 생성
 model = Sequential()
 model.add(Dense(256, input_dim = 784))
-model.add(Activation('sigmoid'))
-model.add(Dense(10))
-model.add(Dense(10))
+# << hyperparameter : 활성화 함수 >>
+# 전결합층이 입력을 선형 변환한 것을 출력하나, 활성화 함수로  비선형을 갖게 하여 선형 분리 불가능한 데이터에 대응하기 위해 씀
+# 1) sigmoid : 0, 1 안에 출력 (출력이 작아 학습속도 느려)
+# 2) ReLU : Rectified Linear Unit / Relu(x) = 0 (x<0), 1 (x>=0)
 
-model.add(Dense(128))
 model.add(Activation('sigmoid'))
+
+
+# Network Structure
+# 은닉층 많아지면 -> 입력층에 가까운 가중치 적절 갱신 어렵고/ 학습 진행 느려
+# 은닉층 유닛수 많아지면 -> 중요성 낮은 특징량 추출 > 과학습하기 쉬워져
+# 네트워크 구조는 경험에 근거하여 결정하는 경향
+
+model = Sequential()
+model.add(Dense(256, input_dim=784, activation='sigmoid'))
+model.add(Dense(128, activation='sigmoid'))
 model.add(Dropout(rate=0.5))
-model.add(Dense(10))
-model.add(Activation('softmax'))
+model.add(Dense(10, activation='softmax'))
 
-model.summary()
+def funcA():
+    global batch_size
+    batch_size =16
+
+
+def funcB():
+    global batch_size
+    batch_size =32
+
+def funcC():
+    global batch_size
+    batch_size =64
+
+# funcA()
+# funcB()
+funcC()
+
 
 # 컴파일
+# heperparameter : lr : learning rate
 sgd = optimizers.SGD(lr=0.1)
+# hyperparameter : 최적화 함수 optimizer, 오차 함수 loss
+# metrics는 평가 함수라 학습 자체에 관계가 없다
 model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['acc'])
 
+# loss : 학습시 출력과 y값(지도 데이터)과의 차이를 평가 / 손실 함수 최소화하도록 오차역전파법으로 각 층의 가중치가 갱신
+# 1) Squared Error - 회귀 - 최소치 부근에서 천천히 갱신 - 학습이 수렴하기 쉽다
+# 2) cross-entropy error- 이항분류 - 예측라벨과 정답 라벨 값은 가까울 수록 작은 값이 됨/ 0~1 사이에 있는 두 숫자 차이 평가
+
+# Optimizer : 오차 함수를 미분으로 구한 값을 학습속도, epoch 수, 과거 가중치 갱신량 근거로 가중치 갱신에 어떻게 반영할지 정하는 것
+
 # 2. 학습
+# hyperparameter 배치처리크기, epoch 수
 history= model.fit(x_train, y_train, batch_size=500, epochs=5, verbose=1, validation_data=(x_test, y_test))
 # fit의 출력인 acc
 print('====================  ')
 
 
-# 4. 모델 분류
+# 3. 모델 분류
 score = model.evaluate(x_test, y_test, verbose=1)
 #  일반화 정확도 = 모델에 테스트 데이터 전달 시 분류 정확도
 print('evaluate loss:{0[0]}\nevaluate acc:{0[1]}'.format(score))
