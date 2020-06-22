@@ -47,21 +47,12 @@ print('R2 : ', score)
 
 thresholds = np.sort(model.feature_importances_)
 print(thresholds)
-# 오름차순으로 중요도가 낮은 애들부터 나옴
 
-# R2 :  0.9221188544655419
-# [0.00134153 0.00363372 0.01203115 0.01220458 0.01447935 0.01479119
-#  0.0175432  0.03041655 0.04246345 0.0518254  0.06949984 0.30128643
-#  0.42848358]
-
-# 전체 컬럼수 13개만큼 돌림
 for thresh in thresholds : # thresh : feature importance 값 // 모델 선택함
     selection = SelectFromModel(model, threshold=thresh, prefit=True)
                                                 # median
     select_x_train = selection.transform(x_train)
     
-    # print(select_x_train.shape)
-
 
     selection_model =  XGBRegressor()
     selection_model.fit(select_x_train, y_train)      
@@ -74,33 +65,3 @@ for thresh in thresholds : # thresh : feature importance 값 // 모델 선택함
     
     print('Thresh =%.3f, n=%d, R2 : %.2f%%' %(thresh,select_x_train.shape[1],
                                               score*100))
-'''
-Thresh =0.001, n=13, R2 : 92.21%
-R2 :  0.921593214554105
-Thresh =0.004, n=12, R2 : 92.16%
-R2 :  0.9203131446000834
-Thresh =0.012, n=11, R2 : 92.03%
-R2 :  0.9219134406317994
-Thresh =0.012, n=10, R2 : 92.19%
-R2 :  0.9307724255990869
-Thresh =0.014, n=9, R2 : 93.08%
-R2 :  0.9236679494937362
-Thresh =0.015, n=8, R2 : 92.37%
-R2 :  0.9148067494950485
-Thresh =0.018, n=7, R2 : 91.48%
-R2 :  0.9270688746921889
-Thresh =0.030, n=6, R2 : 92.71%
-R2 :  0.9173564889681338
-Thresh =0.042, n=5, R2 : 91.74%
-R2 :  0.9210956498765558
-Thresh =0.052, n=4, R2 : 92.11%
-R2 :  0.925174592739333
-Thresh =0.069, n=3, R2 : 92.52%
-R2 :  0.694098937345699
-Thresh =0.301, n=2, R2 : 69.41%
-R2 :  0.44984470683830424
-Thresh =0.428, n=1, R2 : 44.98%
-'''
-
-# Grid Search  까지 엮기
-# Dacon 적용하기. 71개 컬럼
