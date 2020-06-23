@@ -66,17 +66,35 @@ y_pred = model.predict(x_test)
 acc = accuracy_score(y_pred, y_test)
 print('acc: ', acc)
 
+# 1)
 # import pickle  # python에서 기본제공해서 바로 뜸
-# pickle.dump(model, open('F:/Study/model/sample/xgb_save/cancer.pickle.dat','wb'))
-import joblib 
-joblib.dump(model, 'F:/Study/model/sample/xgb_save/cancer.joblib.dat')
+# pickle.dump(model, open('F:/Study/model/sample/xgb_save/cancer.pickle.dat','wb')) # wb write binary 
+
+# 2)
+# import joblib 
+# joblib.dump(model, 'F:/Study/model/sample/xgb_save/cancer.joblib.dat')
 print('저장됨')
 
+# 3)
+model.save_model('F:/Study/model/sample/xgb_save/cancer.xgb.model')
+#xgb
 
 
 model2 = XGBClassifier()
-# model2 = pickle.load(open('F:/Study/model/sample/xgb_save/cancer.pickle.dat', 'rb'))
-model2 = joblib.load('F:/Study/model/sample/xgb_save/cancer.joblib.dat')
+# model2 = pickle.load(open('F:/Study/model/sample/xgb_save/cancer.pickle.dat', 'rb')) # rb read binary
+# model2 = joblib.load('F:/Study/model/sample/xgb_save/cancer.joblib.dat')
+model2 = XGBClassifier()
+model2.load_model('F:/Study/model/sample/xgb_save/cancer.xgb.model')
+
+
+'''
+Pickled model as a file using joblib: 
+Joblib is the replacement of pickle as it is more efficent on objects that carry large numpy arrays. 
+These functions also accept file-like object instead of filenames. 
+joblib.dump to serialize an object hierarchy. joblib.load to deserialize a data stream.
+'''
+
+
 print('불러옴')
 
 y_pred = model2.predict(x_test)

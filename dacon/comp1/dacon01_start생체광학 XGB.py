@@ -1,4 +1,5 @@
 # DT & feature importance
+# DT & feature importance
 
 import numpy as np
 import pandas as pd
@@ -35,6 +36,31 @@ print('submission.shape : ', submission.shape)
 #  train.    shape :  (10000, 75) : 71 열은 x_train, x_test// 4 열은 y_train,y_test
 #   test.    shape :  (10000, 71) : x_predict 
 # submission.shape :  (10000, 4)  : y_predict 4
+
+print(type(train))
+import numpy as np
+import pandas as pd  
+import pandas as pd
+
+def outliers_pd(data_out) :
+    outliers = []
+    for i in range(data_out.values.shape[1]):
+        data = data_out.values[:, i]
+        quartile_1, quartile_3 = np.percentile(i, [25,75])
+        print(i,'1사분위 : ',quartile_1)
+        print(i,'3사분위 : ',quartile_3)
+        iqr = quartile_3 - quartile_1
+        lower_bound = quartile_1 - (iqr * 1.5)
+        upper_bound = quartile_3 + (iqr * 1.5)
+        out = np.where((i > upper_bound) | (i<lower_bound))
+        outliers.append(out)
+    return outliers
+    print('outliers',outliers)
+
+a =outliers_pd(test)
+print(a)
+
+
 
 # 3) 결측치 보완
 # print(train.isnull().sum())
@@ -78,13 +104,13 @@ x1_scaled = scaler.transform(x1)
 x_predict = scaler.transform(x_predict)
 
 
-'''
-from sklearn.decomposition import PCA
-pca = PCA(n_components=2)
-pca.fit(x1_scaled)
-x1 = pca.transform(x1_scaled)
-x_predict = pca.transform(x_predict)
-'''
+
+# from sklearn.decomposition import PCA
+# pca = PCA(n_components=2)
+# pca.fit(x1_scaled)
+# x1 = pca.transform(x1_scaled)
+# x_predict = pca.transform(x_predict)
+
 y_predict = []
 
 for i in range(4) :
@@ -139,9 +165,8 @@ print(y_pred)
 y_pred.to_csv('./dacon/comp1/y_pred.csv', index = False)
 # model.save('./dacon/comp1/dacon1_model.save.h5')
 
-'''
-score: 0.6826087477365764
-score: 0.15263463846738812
-score: 0.14027518151046114
-score: 0.007097635717074446
-'''
+
+# score: 0.6826087477365764
+# score: 0.15263463846738812
+# score: 0.14027518151046114
+# score: 0.007097635717074446

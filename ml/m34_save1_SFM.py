@@ -47,7 +47,7 @@ for thres in threshold:
     select_x_train = selection.transform(x_train)
     select_x_test = selection.transform(x_test)
 
-    selection_model = XGBRegressor(n_estimators = 100, learning_rate = 0.05, n_jobs = -1) 
+    selection_model = XGBRegressor(n_estimators = 10, learning_rate = 0.05, n_jobs = -1) 
 
     selection_model.fit(select_x_train, y_train, verbose= True, eval_metric= ['logloss', 'rmse'],
                                         eval_set= [(select_x_train, y_train), (select_x_test, y_test)],
@@ -63,3 +63,25 @@ for thres in threshold:
     # print("eval's result : ", result)
 
 # R2 :  0.9354279986548603
+
+
+# 1)
+import pickle  # python에서 기본제공해서 바로 뜸
+pickle.dump(model, open('F:/Study/model/sample/xgb_save/boston.pickle.dat_Thresh=0.569, n = 1, R2 : -172.39%_','wb')) # wb write binary 
+
+# # 2)
+# import joblib 
+# joblib.dump(model, 'F:/Study/model/sample/xgb_save/boston.joblib_Thresh=0.569, n = 1, R2 : -172.39%_.dat')
+print('저장됨')
+
+# 3)
+# model.save_model('F:/Study/model/sample/xgb_save/boston.xgb.model_Thresh=0.569, n = 1, R2 : -172.39%_')
+#xgb
+
+
+model2 = XGBRegressor()
+# model2 = pickle.load(open('F:/Study/model/sample/xgb_save/boston.pickle_R2.dat', 'rb')) # rb read binary
+# model2 = joblib.load('F:/Study/model/sample/xgb_save/boston.joblib.dat')
+# model2.load_model('F:/Study/model/sample/xgb_save/boston.xgb.model') # R2 :  -1.7238583749182492
+
+print('불러옴')
