@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from keras.layers import Dense, Dropout
@@ -73,11 +73,8 @@ test = test.fillna(method='bfill')
 
 # 4) x, y 나눠주기
 x1 = train.values[:, :71]
-# x11 = train[:, :71]
 x11 = train.loc[:,"rho":"990_dst"]
-x_col = list(x11)
 x11 = x11.values
-# x_col = x11.columns
 y1 = train.values[:, 71:]
 
 
@@ -119,9 +116,9 @@ score = model.score(x_test, y_test)
 
 # print('y_predict: ', y_predict)
 
-print('feature_importances_ : ',model.estimators_[2].feature_importances_)
+print('feature_importances_ : ',model.estimators_.feature_importances_)
 
-thresholds = np.sort(model.estimators_[2].feature_importances_)
+thresholds = np.sort(model.estimators_.feature_importances_)
 
 models = []
 scores = np.array([])
@@ -129,7 +126,7 @@ selects = []
 
 for thresh in thresholds : # thresh : feature importance 값 // 모델 선택함
 # AttributeError: 'GridSearchCV' object has no attribute 'estimators_'
-    selection = SelectFromModel(model.estimators_[2], threshold=thresh, prefit=True)
+    selection = SelectFromModel(model.estimators_, threshold=thresh, prefit=True)
                                             # median
     select_x_train = selection.transform(x_train)
     select_x_test = selection.transform(x_test)
@@ -147,7 +144,7 @@ for thresh in thresholds : # thresh : feature importance 값 // 모델 선택함
 
     n_jobs = -1
 
-    model = GridSearchCV(XGBRegressor(gpu_id=0, tree_method='gpu_hist'), parameters, cv=5, n_jobs=-1) # n_jobs 는 속도 높이기 위해 그리드 서치에 통으로 돌린다
+    model = RandomizedSearchCV(XGBRegressor(gpu_id=0, tree_method='gpu_hist'), parameters, cv=5, n_jobs=-1) # n_jobs 는 속도 높이기 위해 그리드 서치에 통으로 돌린다
     MOR = MultiOutputRegressor(model)
     MOR.fit(select_x_train, y_train)      
 

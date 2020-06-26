@@ -16,7 +16,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.8,
 model = XGBRegressor(n_estimators=300, learning_rate=0.1)
                     # = epochs
                                                      # loss
-model.fit(x_train, y_train, verbose=True, eval_metric=['logloss','rmse'],
+model.fit(x_train, y_train, verbose=False, eval_metric=['logloss','rmse'],
                 eval_set=[(x_train, y_train), (x_test, y_test)], # rmse, mae, logloss, error, auc
                 early_stopping_rounds= 100)
 

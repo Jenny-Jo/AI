@@ -21,7 +21,7 @@ parameters = [
     
     { 'n_estimators': [90, 100, 110], 'learning_rate': [0.1, 0.001, 0.01],
      'max_depth':[4,5,6], 'colsample_bytree' : [0.6 ,0.9 ,1] },
-    
+                            # dropout
     { 'n_estimators': [90, 110], 'learning_rate': [0.1, 0.001, 0.5],
      'max_depth':[4,5,6], 'colsample_bytree' : [0.6 ,0.9 ,1],
      'colsample_bylevel' : [0.6, 0.7, 0.9] }
@@ -30,7 +30,7 @@ parameters = [
 n_jobs = -1
 
 model = GridSearchCV(XGBRegressor(), parameters, cv=5, n_jobs=-1) # n_jobs 는 속도 높이기 위해 그리드 서치에 통으로 돌린다
-
+                                                        # -1 쓰면 더 좋다/ 5 쓰면 더 빠름
 model.fit(x_train, y_train)
 print('-------------------------------------')
 print(model.best_estimator_)

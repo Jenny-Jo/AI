@@ -41,6 +41,7 @@ print(type(train))
 import numpy as np
 import pandas as pd  
 import pandas as pd
+from sklearn.feature_selection import SelectFromModel
 
 def outliers_pd(data_out) :
     outliers = []
@@ -118,12 +119,30 @@ for i in range(4) :
 
     x_train, x_test, y_i_train, y_i_test = train_test_split(x1, y_i, train_size = 0.8)
 
+    model = XGBRegressor()
+    thresholds = np.sort(model.estimators_.feature_importances_)
+
+    for thresh in thresholds : # thresh : feature importance 값 // 모델 선택함
+    # AttributeError: 'GridSearchCV' object has no attribute 'estimators_'
+        selection = SelectFromModel(model.estimators_[2], threshold=thresh, prefit=True)
+                                                # median
+        select_x_train = selection.transform(x_train)
+        select_x_test = selection.transform(x_test)
+
+        # print(select_x_train.shape)
+        # GridSearch
+        parameters = [
+        { 'n_estimators': [90, 100, 110], 'learning_rate': [0.1, 0.001, 0.01],
+        'max_depth':[4,5,6], 'colsample_bytree' : [0.6 ,0.9 ,1] }]
+
+        # { 'n_estimators': [90, 110], 'learning_rate': [0.1, 0.001, 0.5],
+        #     'max_depth':[4,5,6], 'colsample_bytree' : [0.6 ,0.9 ,1],
+        #     'colsample_bylevel' : [0.6, 0.7, 0.9] }
 
 
 
 
     # 2. model
-    model = XGBRegressor()
 
     # 3. fit
     model.fit(x_train, y_i_train)

@@ -5,7 +5,7 @@ x = 222
 def main_func():
     print('x : ', x)
 
-p31_sample.test()
+# p31_sample.test
 test()
 
 
