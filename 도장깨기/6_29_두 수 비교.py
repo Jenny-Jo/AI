@@ -12,7 +12,6 @@
 # A가 B보다 작은 경우에는 '<'를 출력한다.
 # A와 B가 같은 경우에는 '=='를 출력한다.
 
-
 # 1차 시도 - 컴파일 에러
 A, B = map(int, input().split())
 
@@ -34,7 +33,7 @@ elif A == B :
     print(" == ")
 elif  A < B :
     print(" < ")
-    
+   
 
 # 3차 시도 - 출력 형식 잘못되었습니다
 A, B = map(int, input().split())
@@ -42,9 +41,9 @@ A, B = map(int, input().split())
 if A > B :
     print( " > ")
 elif A == B :
-    print(" == ")
+    print(" == " )
 else:
-    print(" < ")
+    print(" < " )
 
 
 # N차 시도- 맞았습니다!!
@@ -59,3 +58,43 @@ else :
     print(' == ')
 
 # "  " 에서  '  ' 로 바꿨는데 맞았다. 그 이유가 뭘까???
+# 공백을 넣어주면 문제에서 원하는 답이 아니기 때문에, 공백 없이 해야함
+
+import sys
+a, b = map(int, sys.stdin.readline().split())
+# input()보다 좋음
+ 
+import sys
+for line in sys.stdin:
+    print(line)
+    
+# 1
+# 1
+
+# 2
+# 2
+
+# 3
+# 3
+
+# 4
+# 4
+
+# 5
+# 5
+
+# 6
+# 6
+
+# 7
+# 7
+
+# 8
+# 8
+
+# 99
+# 99
+
+# 11
+# 11
+
