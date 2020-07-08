@@ -21,6 +21,31 @@ None
 --problem_output--
 점 (x, y)의 사분면 번호(1, 2, 3, 4 중 하나)를 출력한다."""
 
+# 7/1
+import sys
+x, y = map(int, sys.stdin.readline().split())
+
+if x>0 and y>0:
+    print(1)
+elif x<0 and y>0:
+    print(2)
+elif x<0 and y<0:
+    print(3)
+elif x>0 and y<0:
+    print(4)
+
+import sys
+x, y = map(int, sys.stdin.readline().split())
+if (x > 0) & (y > 0):
+    print(1)
+elif (x < 0) & (y > 0):
+    print(2)
+elif (x < 0) & (y < 0):
+    print(3)
+elif (x > 0) & (y < 0):
+    print(4)
+
+
 # 1차 시도 - 런타임 에러
 # 첫줄, 다음줄 따로 입력하는거라 map()함수 안썼다
 import sys
@@ -69,3 +94,5 @@ if x<0:
         print(3)
         
 # map함수, sys 쓰면 안되는 건지?????
+
+

@@ -76,10 +76,12 @@ from sklearn.metrics import accuracy_score
 search = RandomizedSearchCV(model, hyperparameters, cv = 3, n_jobs = -1 )            # cv = cross_validation
 # with n_jobs=1 it uses 100% of the cpu of one of the cores. Each process is run in a different core.
 # # 모형 최적화 병렬/분산 처리¶
-# 모형 최적화를 위해서는 많은 반복 처리과 계산량이 필요하다. 보통은 복수의 프로세스, 혹은 컴퓨터에서 여러가지 다른 하이퍼 모수를 가진 모형을 훈련시킴으로써 모형 최적화에 드는 시간을 줄일 수 있다.
+# 모형 최적화를 위해서는 많은 반복 처리과 계산량이 필요하다. 보통은 복수의 프로세스, 
+# 혹은 컴퓨터에서 여러가지 다른 하이퍼 모수를 가진 모형을 훈련시킴으로써 모형 최적화에 드는 시간을 줄일 수 있다.
 
 # Scikit-Learn 패키지의 기본 병렬 처리¶
-# GridSearchCV 명령에는 n_jobs 라는 인수가 있다. 디폴트 값은 1인데 이 값을 증가시키면 내부적으로 멀티 프로세스를 사용하여 그리드서치를 수행한다. 만약 CPU 코어의 수가 충분하다면 n_jobs를 늘릴 수록 속도가 증가한다.
+# GridSearchCV 명령에는 n_jobs 라는 인수가 있다. 디폴트 값은 1인데 이 값을 증가시키면 내부적으로 멀티 프로세스를 사용하여 그리드서치를 수행한다. 
+# 만약 CPU 코어의 수가 충분하다면 n_jobs를 늘릴 수록 속도가 증가한다.
 
 # fit
 search.fit(x_train, y_train)

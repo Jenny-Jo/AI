@@ -1,4 +1,6 @@
-*.h5
-*.hdf5
 graph/*
-ss
+model/*
+*.hdf5
+*.h5
+*.xlsx
+*.csv

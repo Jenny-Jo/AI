@@ -31,12 +31,12 @@ model = RandomForestRegressor() # 1.0
 
 model = Sequential()
 
-model.add(Dense(10, input_dim =2, activation='relu')) #앞에 1이 output
+model.add(Dense(10, input_dim =2, activation='relu')) 
 # model.add(Dense(1, activation='sigmoid')) 이 줄 추가하면 히든레이어 추가 되어 딥러닝
 model.add(Dense(10, activation = 'relu'))
 model.add(Dense(10, activation = 'relu'))
 model.add(Dense(10, activation = 'relu'))
-model.add(Dense(1, activation = 'sigmoid'))
+model.add(Dense(1, activation = 'sigmoid'))#앞에 1이 output
 model.summary()
 
 # 이거 하나면 끝

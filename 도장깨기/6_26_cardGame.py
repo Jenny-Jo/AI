@@ -9,6 +9,16 @@
 
 #   0 ≤ Ai ≤ 100．
 # 표준 출력에 JOI군의 총점을 한 줄로 출력하라.
+
+score = 0
+for i in range(5):
+    score_of_each_game = int(input()) # Ai = int(input())
+    score += score_of_each_game
+print(score)
+
+
+
+
 '''
 # 1차 시도 - 틀렸음
 from random import randint

@@ -5,17 +5,25 @@ import bs4
 
 # q_num=1000
 q_num=input("문제번호는?")
+# q_name=input("문제이름은?")
 url = f"https://www.acmicpc.net/problem/{q_num}"
 source = urlopen(url).read()
 source_bs4 = bs4.BeautifulSoup(source,"html.parser")
+
+
+title = source_bs4.find('title').string
+q_name=title.split()[-1]
+
 name=__file__.split("\\")[-1]
 # folder=__file__[:-len(name)-1].split("\\")[-1]
-path=__file__[:-len(name)]+"descript.txt"
+path=__file__[:-len(name)]+f"{q_name}_{q_num}.py"
 print(path)
+
 with open(path,"w",encoding="utf-8") as file:
     
 # print(source)
-    title = source_bs4.find('title').string
+    
+    file.write("'''")
     file.write("\n")
     file.write(f"--url--\n")
     file.write(f"{url}\n")
@@ -40,4 +48,5 @@ with open(path,"w",encoding="utf-8") as file:
     for t in text_0:
         file.write(f"{t.string}\n")
         file.write("\n")
+    file.write("'''")
 
