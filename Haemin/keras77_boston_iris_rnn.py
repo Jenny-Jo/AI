@@ -10,7 +10,7 @@ dataset = load_iris()
 x=dataset.data
 y=dataset.target
 
-#dimention 확인
+#dimension 확인
 print(f"x.shape:{x.shape}")
 print(f"y.shape:{y.shape}")
 
