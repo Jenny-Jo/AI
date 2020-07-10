@@ -19,3 +19,7 @@ https://www.acmicpc.net/problem/10952
 각 테스트 케이스마다 A+B를 출력한다.
 
 '''
+
+import sys
+a, b = list(map(int, sys.stdin.readline().split()))
+print(a+b)

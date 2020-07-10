@@ -46,3 +46,5 @@ print(x_data.shape, y_data.shape) # (8, 4) (8, 1)
 # 회귀
 # x, y , w, b, hypothesis, cost, train(optimizzer)
 
+
+
