@@ -7,12 +7,12 @@ from keras.datasets import mnist
 # dataset = load_iris()
 (x_train,y_train),(x_test,y_test)=mnist.load_data()
 
-print(x_train.shape)#(60000, 28, 28)
+print(x_train.shape)#(60000, 28, 28) > 4차원으로 
 print(y_train.shape)#(60000,)
 
 
-x_train = x_train.reshape(-1,x_train.shape[1]*x_train.shape[2]).astype('float32')/255
-x_test = x_test.reshape(-1,x_test.shape[1]*x_test.shape[2]).astype('float32')/255
+x_train = x_train.reshape(-1,x_train.shape[1],x_train.shape[2],1).astype('float32')/255
+x_test = x_test.reshape(-1,x_test.shape[1],x_test.shape[2],1).astype('float32')/255
 
 from keras.utils import np_utils
 y_train = np_utils.to_categorical(y_train)
@@ -24,23 +24,47 @@ batch_size = 100
 total_batch = int(len(x_train)/batch_size) # 60000/100
 
 x = tf.placeholder(tf.float32,[None, 784])
+x_img = tf.reshape(x, [-1, 28, 28, 1])
 y = tf.placeholder(tf.float32,[None, 10])
 
 keep_prob = tf.placeholder(tf.float32) # dropout
 
 # 1st hidden layer
 # w1 = tf.Variable(tf.random_normal[784, 512], name ='weight') # 
-w1 = tf.get_variable('w1',shape=[784, 512],initializer=tf.contrib.layers.xavier_initializer()) # variable보다 좋다
-print('w1: ',w1)     # w1:  <tf.Variable 'w1:0' shape=(784, 512) dtype=float32_ref>
-b1 = tf.Variable(tf.random_normal([512]))
-print('b1: ',b1)     # b1:  <tf.Variable 'Variable:0' shape=(512,) dtype=float32_ref>
-layer1 = tf.nn.selu(tf.matmul(x,w1)+b1)
-print('l1: ',layer1) # l1:  Tensor("Selu:0", shape=(?, 512), dtype=float32)
-layer1 = tf.nn.dropout(layer1, keep_prob=keep_prob) 
-print('l1: ',layer1) # l1:  Tensor("dropout/mul_1:0", shape=(?, 512), dtype=float32)
+
+w1 = tf.get_variable('w1',shape=[3, 3, 1, 32]) 
+# conv2D(32 output, (3,3)kernel size, input_shape=(28,28,1))
+# [3, 3, kernel size,/ 1, color,/ 32 output]
+
+print('w1:', w1) 
+# w1: <tf.Variable 'w1:0' shape=(3, 3, 1, 32) dtype=float32_ref>
+
+layer1 = tf.nn.conv2d(x_img, w1, strides=[1,1,1,1], padding='SAME') # ?
+print('layer:',layer1) 
+# layer: Tensor("Conv2D:0", shape=(?, 28, 28, 32), dtype=float32)
+
+layer1 = tf.nn.selu(layer1)
+layer1 = tf.nn.max_pool(layer1,ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME') # kernel size
+print('layer:',layer1)
+# layer: Tensor("MaxPool:0", shape=(?, 14, 14, 32), dtype=float32)
 
 
-w2 = tf.get_variable('w2',shape=[512, 512],initializer=tf.contrib.layers.xavier_initializer()) # variable보다 좋다
+                             #kernel  #input #output
+w2 = tf.get_variable('w2',shape=[3, 3, 32, 64]) # variable보다 좋다
+layer2 = tf.nn.conv2d(layer1, w2, strides=[1,1,1,1], padding='SAME') # ?
+layer2 = tf.nn.selu(layer2)
+layer2 = tf.nn.max_pool(layer2, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
+print(layer2) # (?, 7, 7, 64)
+
+layer_flat = tf.reshape(layer2,[-1, 7*7*64])
+
+
+w3 = tf.get_variable('w3', shape=[7*7*64,10], initializer=tf.contrib.layers.xavier_initializer())
+b3 = tf.Variable(tf.random_normal([10]))
+hypothesis = tf.nn.softmax(tf.matmul(layer_flat, w3)+b3)
+
+
+
 b2 = tf.Variable(tf.random_normal([512]))
 layer2 = tf.nn.selu(tf.matmul(layer1,w2)+b2)
 layer2 = tf.nn.dropout(layer2, keep_prob=keep_prob)
@@ -72,12 +96,12 @@ for epoch in range(training_epochs): # 15
     for i in range(total_batch): #600
         ################################################
    
-        '''
+        ''''''
         batch_xs, batch_ys = x_train[0:100], y_train[0:100]
         batch_xs, batch_ys = x_train[100:200], y_train[0:100]
                                      
         batch_xs, batch_ys = x_train[i *100 : (i+1)*100], y_train[i*100:(i+1)*100]  # batch_size = 100
-        '''
+        ''''''
         start = i * batch_size 
         end = start + batch_size                                            
         batch_xs, batch_ys = x_train[start:end], y_train[start:end]

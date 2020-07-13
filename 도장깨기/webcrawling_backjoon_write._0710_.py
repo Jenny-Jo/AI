@@ -12,12 +12,12 @@ source_bs4 = bs4.BeautifulSoup(source,"html.parser")
 
 
 title = source_bs4.find('title').string
-q_name=title.split()[-1]
-
+q_name=title.split(":")[-1].lstrip()
+# print(title)
 name=__file__.split("\\")[-1]
 # folder=__file__[:-len(name)-1].split("\\")[-1]
-path=__file__[:-len(name)]+f"{q_name}_{q_num}.py"
-print(path)
+path=__file__[:-len(name)]+f"kind_num_{q_name}_{q_num}_tier.py"
+# print(path)
 
 with open(path,"w",encoding="utf-8") as file:
     
@@ -34,19 +34,28 @@ with open(path,"w",encoding="utf-8") as file:
     file.write("--problem_description--\n")
     text_0 = source_bs4.find('div', id ="problem_description").find_all('p')
     for t in text_0:
-        file.write(f"{t.string}\n")
-        file.write("\n")
+        texts=t.string.split(". ")
+        for text in texts:
+            file.write(f"{text}\n")
+    file.write("\n")
 
     file.write("--problem_input--\n")
     text_0 = source_bs4.find('div', id ="problem_input").find_all('p')
     for t in text_0:
-        file.write(f"{t.string}\n")
-        file.write("\n")
+        texts=t.string.split(". ")
+        for text in texts:
+            file.write(f"{text}\n")
+    file.write("\n")
 
     file.write("--problem_output--\n")
     text_0 = source_bs4.find('div', id ="problem_output").find_all('p')
     for t in text_0:
-        file.write(f"{t.string}\n")
-        file.write("\n")
+        if t.string is None:
+            pass
+        else:
+            texts=t.string.split(". ")
+            for text in texts:
+                file.write(f"{text}\n")
+    file.write("\n")
     file.write("'''")
 

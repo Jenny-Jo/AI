@@ -22,3 +22,15 @@ def split1(datasets,timesteps):#samsung
             x_values.append(x)
             y_values.append(y)
         return np.array(x_values),np.array(y_values)
+
+def split_xy1(dataset, time_steps):
+    x, y = list(), list()
+    for i in range(len(dataset)):
+        end_number = i + time_steps
+        if end_number > len(dataset) -1 :
+            break
+        tmp_x, tmp_y = dataset [i:end_number], dataset[end_number]
+        x.append(tmp_x)
+        y.append(tmp_y)
+    return np.array(x), np.array(y)
+x,y = split_xy1(dataset, 5)
