@@ -1,0 +1,31 @@
+7/14 sql
+
+sa - system admin
+보안 약하단 이야기
+
+로그인 우클릭>새 로그인>로그인 이름 (새 아이디 생성)
+sql server 인증
+암호
+암호 정책 강제 적용 uncheck
+불안정해서 껐다 키면 날라갈 수도
+DBA database analysis
+
+서버역할>
+public = system adm에 준해
+건드릴 일이 없음
+
+데이터베이스> 새 데이터베이스>
+
+bitdb> table (데이터 넣는 곳?)>새로만들기>테이블
+
+새쿼리>select * from Test01; > F5
+select 이름 from Test01;
+select 이름,연봉 from Test01;
+
+iris 넣자
+bitdb>task>플랫파일 가져오기
+
+null 결측치 허용
+기본키 공부 따로!!
+???디자인>컬럼명 변경
+상위 200개  편집
