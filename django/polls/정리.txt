@@ -1,0 +1,93 @@
+1. 
+cmd에서 스터디 경로 설정
+명령어 : django-admin startproject mysite
+
+vs 코드에 mysite 생성이 되었다.
+
+2. 
+django 이름 바꿔주기
+cmd에서 경로 장고로 만들어주고
+명령어 : python manage.py startapp polls
+그럼 vs code 장고폴더에 polls 폴더 가 생김
+
+3.
+mysite 안에 setting.py 들어가서
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost'] 설정
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'polls.apps.PollsConfig', < 이거추가
+]
+TIME_ZONE = 'Asia/Seoul' < UTC를 변경해줌
+
+4.
+cmd에서 명령어 입력
+명령어 : python manage.py migrate
+(뭐가 다운이 됌)
+
+5.
+cmd에
+명령어: python manage.py runserver 입력
+(장고서버를 실행하겠다)
+http://127.0.0.1:8000/ 장고 디폴트 포트인듯
+
+6.
+인터넷에 실행 (로켓트 출현)
+
+7.
+아이디 만들기.?
+명령어 실행: python manage.py createsuperuser
+
+이메일 비번 설정하고 만들고
+다시 런서버
+명령어: python manage.py runserver
+
+8.
+polls 안에 models.py를 들어가서
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+    def __str__(self):
+        return self.question_text
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.choice_text
+
+9.
+polls 폴더에 admin.py 들어가서
+
+from polls.models import Question, Choice
+
+admin.site.register(Question)
+admin.site.register(Choice)
+
+10.
+cmd에 
+명령어 : python manage.py makemigrations
+에러: No changes detected (py파일 저장 안해서 그럼 )
+
+잘되면 이렇게 뜸
+    - Create model Question
+    - Create model Choice
+
+11.
+cmd
+명령어 : python manage.py migrate
+
+12.
+cmd 
+명령어 : python manage.py runserver 
+다시실행
+그럼 choice랑 question 이 생김
