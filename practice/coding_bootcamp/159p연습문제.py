@@ -18,6 +18,7 @@ get_sum(start=1, end=10)
 
 # 정답
 
+
 def get_sum(**kargs):
     start = kargs['start']
     end = kargs['end']
