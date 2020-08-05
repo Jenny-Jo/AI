@@ -105,3 +105,6 @@ AMT = list(submission['AMT'])*2
 submission['AMT'] = AMT
 submission.to_csv('F:/Study/dacon/제주/jeju_data_ver1/submission.csv', encoding='utf-8-sig')
 submission.head()
+print('the end')
+
+

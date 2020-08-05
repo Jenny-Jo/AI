@@ -5,3 +5,16 @@ model/*
 *.xlsx
 *.csv
 *.exe
+*.png
+*.jpg
+*.mp4
+*.pdf
+*.json
+*.sqlite
+*.md
+*.npy
+*.dat
+*.bz2
+*.pbtxt
+*.ipynb
+*.suo

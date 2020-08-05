@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-# -*- coding: EUC-KR -*-
+# -*- coding: utf-8 -*-
 
 import cgi
 
 html_body = """
 <html>
 <body>
-<p>´ç½ÅÀÇ ÀÌ¸§Àº <span style="font-size:48px"> %s </span> ÀÔ´Ï´Ù!</p>
+<p>ë‹¹ì‹ ì˜ ì´ë¦„ì€ <span style="font-size:48px"> %s </span> ì…ë‹ˆë‹¤!</p>
 </body>
 </html>
 """
