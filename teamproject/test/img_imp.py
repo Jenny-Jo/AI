@@ -11,7 +11,7 @@ def aidemy_imshow(name, img):
 
 cv2.imshow = aidemy_imshow
 
-img = cv2.imread('teamproject/test/E01/C7.jpg')
+img = cv2.imread('/test/E01/C7.jpg')
 cv2.imshow('sample',img)
 
 print('end')

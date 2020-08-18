@@ -4,14 +4,14 @@ import numpy as np
 
 scaler = 0.3
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('teamproject/simple_face_recognition-master/models/shape_predictor_68_face_landmarks.dat')
+predictor = dlib.shape_predictor('simple_face_recognition-master/models/shape_predictor_68_face_landmarks.dat')
 
 # load video
-cap = cv2.VideoCapture('teamproject/snow/face_detector-master/samples/girl.mp4')
-# cap = cv2.VideoCapture('teamproject/snow/face_detector-master/samples/girl2.mp4')
+cap = cv2.VideoCapture('/snow/face_detector-master/samples/girl.mp4')
+# cap = cv2.VideoCapture('/snow/face_detector-master/samples/girl2.mp4')
 
 # load overlay image
-overlay = cv2.imread('teamproject/snow/face_detector-master/samples/ryan_transparent.png', cv2.IMREAD_UNCHANGED)
+overlay = cv2.imread('/snow/face_detector-master/samples/ryan_transparent.png', cv2.IMREAD_UNCHANGED)
 
 
 # overlay function

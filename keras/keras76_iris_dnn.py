@@ -62,5 +62,10 @@ hist = model.fit(x_train, y_train, epochs=10, verbose=1, callbacks=[])
 
 ### 4) evaluate, predict
 
+evaluate = model.evaluate(y, y_predict)
 
 
+
+predict = model.predict(y)
+
+(acc= acc, loss = [cross_entropy], ;:=  )

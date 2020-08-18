@@ -2,8 +2,8 @@ import dlib, cv2
 import numpy as np
 
 detector = dlib.get_frontal_face_detector()
-sp = dlib.shape_predictor('teamproject\simple_face_recognition-master\models\shape_predictor_68_face_landmarks.dat')
-facerec = dlib.face_recognition_model_v1('teamproject\simple_face_recognition-master\models\dlib_face_recognition_resnet_model_v1.dat')
+sp = dlib.shape_predictor('\simple_face_recognition-master\models\shape_predictor_68_face_landmarks.dat')
+facerec = dlib.face_recognition_model_v1('\simple_face_recognition-master\models\dlib_face_recognition_resnet_model_v1.dat')
 
 def read_img(img_path):
   img = cv2.imread(img_path)
@@ -24,7 +24,7 @@ def encode_face(img):
     return np.array(face_descriptor)
 
 # main
-img1_path = 'teamproject/simple_face_recognition-master/img/matrix.jpg' # iu
+img1_path = '/simple_face_recognition-master/img/matrix.jpg' # iu
 
 # img2_path = '/Users/visualcamp/Pictures/00502318_20180518.JPG' # suz
 # img2_path = '/Users/visualcamp/Pictures/660190_v9_ba.jpg' # suz
@@ -34,7 +34,7 @@ img1_path = 'teamproject/simple_face_recognition-master/img/matrix.jpg' # iu
 # img2_path = '/Users/visualcamp/Development/tf/GazeCapture/dataset/processed/03523/frames/00000.jpg'
 # img2_path = '/Users/visualcamp/Development/tf/GazeCapture/dataset/processed/02534/frames/00005.jpg'
 
-img1_path = 'teamproject/simple_face_recognition-master/img/matrix2.jpg' # me
+img1_path = '/simple_face_recognition-master/img/matrix2.jpg' # me
 img1 = read_img(img1_path)
 img1_encoded = encode_face(img1)
 # img2 = read_img(img2_path)

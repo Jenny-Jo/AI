@@ -3,10 +3,10 @@ import numpy as np
 
 detector = dlib.get_frontal_face_detector()
 
-sp = dlib.shape_predictor('teamproject/simple_face_recognition-master/models/shape_predictor_68_face_landmarks.dat.bz2')
-facerec = dlib.face_recognition_model_v1('teamproject/simple_face_recognition-master/models/dlib_face_recognition_resnet_model_v1.dat')
+sp = dlib.shape_predictor('/simple_face_recognition-master/models/shape_predictor_68_face_landmarks.dat.bz2')
+facerec = dlib.face_recognition_model_v1('/simple_face_recognition-master/models/dlib_face_recognition_resnet_model_v1.dat')
 
-descs = np.load('teamproject\simple_face_recognition-master\img\descs.npy')[()]
+descs = np.load('\simple_face_recognition-master\img\descs.npy')[()]
 
 def encode_face(img):
   dets = detector(img, 1)
