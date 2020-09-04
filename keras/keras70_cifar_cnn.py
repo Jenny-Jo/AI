@@ -54,8 +54,8 @@ from keras.layers.core import Dropout
 
 # 1)
 tb_hist = TensorBoard(log_dir = 'graph', histogram_freq = 0, 
-                      write_graph =True, write_images = True)
-    # tensorboard --logdir=f:\study\git\graph
+                    write_graph =True, write_images = True)
+# tensorboard --logdir=f:\study\git\graph
     
 # 2)
 early_stopping = EarlyStopping(monitor = 'loss', patience=10, mode = 'auto' )

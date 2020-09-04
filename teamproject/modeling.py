@@ -5,9 +5,10 @@ import matplotlib.patches as patches
 import matplotlib.patheffects as path_effects
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
-# 전처리
 
-
+# 
+x_data = np.load('teamproject/save/Image1.npy')
+y_data = np.load()
 
 
 

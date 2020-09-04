@@ -58,18 +58,20 @@ print('y_pred: ',y_predict)
 # y_predict = y_predict.reshape(y_predict.shape[0])
 print(y_predict.shape)
 
-
+# 1)
 # for i in range(len(y_predict)):
 #     y_predict[i] = round(y_predict[i])
 
 # print(y_predict)
 
+# 2)
 # for i in range(len(y_pred)):
 #     if y_pred[i]>0.5:
 #         y_pred[i]=1
 #     else:
 #         y_pred[i]=0
 
+# 3)
 # y_pre=[int(round(i)) for i in y_predict]
 # # # 반올림
 # print(y_pre)

@@ -14,14 +14,14 @@ def read_data(fin):
         image_data = cv2.imread(image_path, cv2.COLOR_BGR2GRAY)
         data_li.append(image_data)
         target_li.append(int(face_id))
-    return (np.array(data_li), np.array(target_li))
+    return (np.array(data_li), np.array(target_li))/
 
 
 def create_train_test_data(image_data, label_li):
     n_samples, imgae_h, image_w = image_data.shape
     x = image_data.reshape(n_samples, -1)
     n_features = x.shape[1]
-    y = label_li
+    y = label_l/
     
     n_classes = len(set(y))
     print('Total dataset size:')
