@@ -188,11 +188,11 @@ print(y_train.shape)#(712,)
 #############################################
 # model
 model = Sequential()
-model.add(Dense(10, input_shape=(18,), activation='relu'))
+model.add(Dense(100, input_shape=(18,), activation='relu'))
 model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
+model.add(Dense(100, activation='relu'))
 model.add(Dropout(0.2))
-model.add(Dense(10, activation='relu'))
+model.add(Dense(100, activation='relu'))
 model.add(Dropout(0.2))
 # model.add(Dense(100, activation='relu'))
 # model.add(Dropout(0.2))
@@ -229,10 +229,12 @@ for i in range(len(y_predict)):
 # print(y_predict.shape)
 
 print(y_predict)
-
+y_predict = y_predict.astype(int)
+        
+    
 
 submission = pd.DataFrame({
     'PassengerId': test['PassengerId'],
     'Survived': y_predict})
 
-submission.to_csv('F:\Study\kaggle\data\submission_titanic1.csv',index=False)
+submission.to_csv('kaggle/submission/submission_titanic1.csv',index=False)
