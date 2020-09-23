@@ -1,3 +1,6 @@
+'''loss: 0.305902361869812
+acc:  0.8770949840545654'''
+
 import pandas as pd
 import numpy as np
 from keras.layers import Dense, LSTM, Dropout
@@ -37,7 +40,7 @@ def pie_chart(feature):
     feature_index = feature_ratio.index
     survived = train[train['Survived']==1][feature].value_counts()
     dead = train[train['Survived']==0][feature].value_counts()
-    
+
     plt.plot(aspect='auto')
     plt.pie(feature_ratio, labels=feature_index, autopct='%1.1f%%')
     plt.title(feature + '\'s ratio in total')
@@ -49,9 +52,9 @@ def pie_chart(feature):
         plt.title(str(index) + '\'s ratio in total')
     plt.show()
 
-# pie_chart('Sex')
-# pie_chart('Pclass')
-# pie_chart('Embarked')
+'''pie_chart('Sex')
+pie_chart('Pclass')
+pie_chart('Embarked')'''
 
 
 # 2) bar chart
@@ -63,8 +66,8 @@ def bar_chart(feature):
     df.plot(kind='bar',stacked=True, figsize=(10,5))
     plt.show()
 
-# bar_chart('Parch')    
-# bar_chart('SibSp')
+'''bar_chart('Parch')    
+bar_chart('SibSp')'''
 
 # 3. feature engineering
 ## 3-1. name feature
@@ -76,18 +79,17 @@ for dataset in train_test_data:
 print(train.head(5))
 print(pd.crosstab(train['Title'], train['Sex']))
 
-# replace some less Title with 'Other'
+# replace some less Title with 'Other' ->serviceperson, Mr, Miss, Mrs
 
 for dataset in train_test_data:
-    dataset['Title']= dataset['Title'].replace(['Capt', 'Col', 'Don','Dona','Dr','Countess', 'Jonkheer', 'Major', 'Rev','Sir'], 'Other')
-    dataset['Title']= dataset['Title'].replace('Mlle', 'Miss')
-    dataset['Title']= dataset['Title'].replace('Mme','Mrs')
-    dataset['Title']= dataset['Title'].replace('Ms', 'Miss')
-    dataset['Title']= dataset['Title'].replace('Lady', 'Miss')
+    dataset['Title']= dataset['Title'].replace(['Master','Col','Major','Capt'], 'serviceperson')
+    dataset['Title']= dataset['Title'].replace(['Dr','Rev','Don','Sir','Jonkheer'], 'Mr')
+    dataset['Title']= dataset['Title'].replace(['Mlle', 'Lady','Ms'], 'Miss')
+    dataset['Title']= dataset['Title'].replace(['Mme', 'Countess','Dona'], 'Mrs')
 
 print(train[['Title', 'Survived']].groupby(['Title'], as_index=False).mean())
 
-
+pie_chart('Title')
 
 # convert the categorical Title value into numeric value
 for dataset in train_test_data:
@@ -158,7 +160,7 @@ for dataset in train_test_data:
     dataset['Family'] = dataset['Parch'] + dataset['SibSp']
     dataset['Family'] = dataset['Family'].astype(int)
 
-# 3.7 Feature selection
+# 3.7 Feature selection9*
 features_drop=['Name', 'Ticket', 'Cabin', 'SibSp', 'Parch']
 train = train.drop(features_drop, axis=1)
 test = test.drop(features_drop, axis=1)
@@ -177,22 +179,22 @@ test_data = test.drop('PassengerId', axis=1).copy() #.copy를 넣은 이유?/ x_
 # gender_df = gender_df.drop('PassengerId', axis=1).copy()#y_test // 내 최대의 실수!!!!!!!!!!!!!!!!!!! 이건 그냥 서밋 예제였을 뿐ㅠㅠ 공홈 안본 내 잘못이다!
 
 print(train_data.shape, train_label.shape, test_data.shape)
-# (891, 18) (891,) (418, 18) 
+# (891, 17) (891,) (418, 17) 
 # x_train, y_train, x_test, y_test
 
 ##################수정#######################
 x_train,x_test, y_train, y_test = train_test_split(train_data, train_label, train_size=0.8)
 x_predict = test_data
-print(x_train.shape)#(712, 18)
+print(x_train.shape)#(712, 17)
 print(y_train.shape)#(712,)
 #############################################
 # model
 model = Sequential()
-model.add(Dense(100, input_shape=(18,), activation='relu'))
+model.add(Dense(300, input_shape=(17,), activation='relu'))
 model.add(Dropout(0.2))
-model.add(Dense(100, activation='relu'))
+model.add(Dense(300, activation='relu'))
 model.add(Dropout(0.2))
-model.add(Dense(100, activation='relu'))
+model.add(Dense(300, activation='relu'))
 model.add(Dropout(0.2))
 # model.add(Dense(100, activation='relu'))
 # model.add(Dropout(0.2))
@@ -207,7 +209,7 @@ from tensorflow.python.keras.layers.core import Dropout
 from sklearn.model_selection import train_test_split
 # es = EarlyStopping(monitor='loss', patience=5, mode='auto')
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
-history = model.fit(train_data, train_label, epochs=90, batch_size=10, verbose=1) #, callbacks=[es])
+model.fit(train_data, train_label, epochs=90, batch_size=10, verbose=1) #, callbacks=[es])
 
 # 평가, 예측
 loss, acc = model.evaluate(x_test,y_test)
@@ -228,7 +230,7 @@ for i in range(len(y_predict)):
 # print(y_predict)
 # print(y_predict.shape)
 
-print(y_predict)
+# print(y_predict)
 y_predict = y_predict.astype(int)
         
     

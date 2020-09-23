@@ -6,20 +6,20 @@ from keras.models import Sequential
 # 1. data 2. analysis
 train = pd.read_csv('kaggle/data/train.csv', sep=',')
 test = pd.read_csv('kaggle/data/test.csv',sep=',')
-# gender_df = pd.read_csv('kaggle/data/gender_submission.csv',header=0, sep=',')
 # print(train.head(5)) # colomn survived  있는 data
-# print(test.head(5))
-# print(gender_df.head(5))
+# print(test.head(5))  # 데이타의 모양
 
-# print(train.info()) # 891 rows * 12 colomns
+# # 데이타 열, 타입과 결측치 여부
+# print(train.info()) # 891 rows * 12 colomns, ㅇ
 # print(test.info())  # 418 rows * 11 colomns
-# print(gender_df.info()) # 418 * 2
-# print(train.describe())
-# print(test.describe())
-# print(train.isnull().sum())
+
+
+# print(train.isnull().sum()) # 결측치
 # print(test.isnull().sum())
 
 
+# print(train.describe()) # 컬럼별 통계적 수치
+# print(test.describe())
 
 # Visualization
 
@@ -88,7 +88,7 @@ for dataset in train_test_data:
     dataset['Title']= dataset['Title'].replace(['Master','Col','Major','Capt'], 'serviceperson')
     dataset['Title']= dataset['Title'].replace(['Dr','Rev','Don','Sir','Jonkheer'], 'Mr')
     dataset['Title']= dataset['Title'].replace(['Mlle', 'Lady'], 'Miss')
-    dataset['Title']= dataset['Title'].replace(['Mme', 'Countess','Dona'], '2')
+    dataset['Title']= dataset['Title'].replace(['Mme', 'Countess','Dona'], 'Mrs')
 
 '''    dataset['Title']= dataset['Title'].replace(['Capt', 'Col', 'Don','Dona','Dr','Countess', 'Jonkheer', 'Major', 'Rev','Sir'], 'Other')
     dataset['Title']= dataset['Title'].replace('Mlle', 'Miss')
@@ -205,8 +205,11 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
+from xgboost import XGBRegressor, XGBClassifier
+from sklearn.model_selection import RandomizedSearchCV # 새로 추가한 것
 
 from sklearn.utils import shuffle
+import xgboost
 
 # shuffle
 train_data, train_label = shuffle(train_data, train_label, random_state = 5)
@@ -217,10 +220,31 @@ def train_and_test(model) :
     prediction = model.predict(test_data)
     accuracy = round(model.score(train_data, train_label)* 100, 2)
     print ( 'Accuracy: ', accuracy, '%')
+    '''
+    # 1) randomized search
+    # https://www.kaggle.com/simulacra/titanic-with-xgboost, m12 볼 것
+
+    model_param_grid = {
+        'n_estimators':range(8,20),
+        'max_depth':range(6,10),
+        'learning_rate':[.4, .45, .5, .55, .6],
+        'colsample_bytree':[.6, .7, .8, .9,1]
+    }
+    random_search = RandomizedSearchCV(param_distributions=model_param_grid, 
+                                           estimator = model, scoring='accuracy',
+                                           verbose=1, n_iter=50, cv=4)
+    random_search.fit(train_data, train_label)
+    print('Best Parameters found: ', random_search.best_params_)
+    print('Best accuracy found: ', random_search.best_score_)
+        
+    # 2) feature importance m18 보기
+    # feat_importances=pd.Series(model.feature_importances_, index=train_data.columns)
+    # feat_importances.nlargest(10).plot(kind='barh')
+    # plt.show()
     return prediction
+# model'''
 
-# model
-
+# 각 모델별로 돌리기
 # Logistic Regression
 log_pred = train_and_test(LogisticRegression())
 # SVM
@@ -229,12 +253,22 @@ svm_pred = train_and_test(SVC())
 rf_pred = train_and_test(RandomForestClassifier(n_estimators=100))
 # Naive Bayes
 nb_pred = train_and_test(GaussianNB())
-print(test.head())
+# XGB
+xgb_pred = train_and_test(XGBClassifier())
+# xgboost.plot_importance(XGBClassifier)
+# 여기 안에 이름 넣어서 출력 하고 싶은데.... 어떻게 하지?
+'''
+Accuracy:  82.72 %
+Accuracy:  83.39 %
+Accuracy:  88.33 % randomforest
+Accuracy:  82.49 %
+Accuracy:  87.99 %'''
 
+print(test.head())
 submission = pd.DataFrame({
     'PassengerId': test['PassengerId'],
     'Survived': rf_pred
 })
 
 submission.to_csv('kaggle\submission/sumbission_88_rf.csv', index=False)
-pd.read_csv('kaggle\submission/sumbission_88_rf.csv',sep=',')
+# pd.read_csv('kaggle\submission/sumbission_88_rf.csv',sep=',')

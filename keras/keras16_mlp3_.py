@@ -46,12 +46,6 @@ model.add(Dense(5))
 model.add(Dense(5))
 model.add(Dense(5))
 model.add(Dense(5))
-model.add(Dense(5))
-model.add(Dense(5))
-model.add(Dense(5))
-model.add(Dense(5))
-model.add(Dense(5))
-model.add(Dense(5))
 
 model.add(Dense(3))
 
