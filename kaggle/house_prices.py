@@ -23,8 +23,8 @@ print(train.columns)
 # print(test.info())  # 1459 * 80
 # # print(train.describe())
 # # print(test.describe())
-# print(test.isnull().sum())
-# print(train.isnull().sum())
+print(test.isnull().sum())
+print(train.isnull().sum())
 
 print(train['SalePrice'].describe())
 
