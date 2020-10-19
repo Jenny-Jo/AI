@@ -31,7 +31,7 @@ train_datagen = ImageDataGenerator(rescale=1./255,          # 0~1변환 / 정규
 train_generator = train_datagen.flow_from_directory(
     './teacher/down/train',
     target_size=(150, 150),
-    batch_size=160,           # 원래 5
+    batch_size=200,           # 원래 5
     class_mode='binary'
 )
 
@@ -42,7 +42,7 @@ print("=====================1================")
 print(train_generator[0][0].shape)  # (160, 150, 150, 3) 사진들
 print(train_generator[0][1].shape)  # (160,)??????????????라벨
 print("======================2===============")
-print(len(train_generator))         # 11 # 32??????????
+print(len(train_generator))         # 6 # 32??????????
 
 # 2. 테스트셋은 이미지 부풀리기 과정을 진행하지 않음
 test_datagen = ImageDataGenerator(rescale=1./255)
@@ -62,7 +62,6 @@ np.save('./data/train_y.npy', arr=train_generator[0][1])
 np.save('./data/test_x.npy', arr=test_generator[0][0])
 np.save('./data/test_y.npy', arr=test_generator[0][1])
 
-print
 
 
 # 앞서 배운 CNN 모델을 만들어 적용하기
